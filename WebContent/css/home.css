@@ -1,0 +1,95 @@
+body {
+	font-family: verdana, helvetica, arial, sans-serif;
+	font-size: 12px;
+	padding:10px;
+}
+
+#logoContainer {
+	margin-top: 5px;
+	margin-left: 40px;
+	width: 214px;
+	height: 65px;
+	float: left;
+}
+
+#logoContainer a {
+	text-decoration: none;
+}
+
+#logoContainer img {
+	width: 214px;
+	height: 65px;
+	border: 0;
+}
+
+#clear {
+	clear: both;
+}
+
+#big-space {
+	clear: both;
+	height: 20px;
+}
+
+#medium-space {
+	clear: both;
+	height: 10px;
+}
+
+#small-space {
+	clear: both;
+	height: 5px;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+#bodyContainer {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	height: 620px;
+	padding: 0px;
+	width: 100%;
+}
+
+#menuContainer {
+	height: 36px;
+}
+
+#menuContainer #menu {
+	position: relative;
+	left: 10px;
+}
+
+#shadowContainer {
+	height: 1px;
+	box-shadow: 0px 10px 3px #C0C0C0;
+	-webkit-box-shadow: 0px 10px 3px #C0C0C0;
+	-moz-box-shadow: 0px 10px 3px #C0C0C0;
+}
+
+#userDetails {
+	float: right;
+	width: 200px;
+	padding-right: 50px;
+	text-align: right;
+}
+
+#userName {
+	float: right;
+	padding-right: 10px;
+}
+
+#settings {
+	float: left;
+	margin-left: 5px;
+}
+
+#settingsImg {
+	width: 20px;
+	height: 20px;
+}
+

@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 12, 2014 10:53:50 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tresfocus.ekart.hibernate.entity.Orders" table="orders" catalog="closerby">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity"></generator>
+        </id>
+        <version name="objectVersionNumber" type="int">
+            <column name="object_version_number" not-null="true" />
+        </version>
+        <many-to-one name="user" class="com.tresfocus.ekart.hibernate.entity.User" fetch="select" lazy='false'>
+            <column name="customer_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="addressByShippingAddressId" class="com.tresfocus.ekart.hibernate.entity.Address" fetch="select" lazy='false'>
+            <column name="shipping_address_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="organization" class="com.tresfocus.ekart.hibernate.entity.Organization" fetch="select" lazy='false'>
+            <column name="org_id" />
+        </many-to-one>
+        <many-to-one name="addressByBillingAddressId" class="com.tresfocus.ekart.hibernate.entity.Address" fetch="select" lazy='false'>
+            <column name="billing_address_id" not-null="true" />
+        </many-to-one>
+        <property name="status" type="string">
+            <column name="status" length="45" not-null="true" />
+        </property>
+        <property name="comments" type="string">
+            <column name="comments" length="1000" />
+        </property>
+        <property name="itemValue" type="float">
+            <column name="item_value" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="tax" type="float">
+            <column name="tax" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="commission" type="float">
+            <column name="commission" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="ip" type="string">
+            <column name="ip" length="45" not-null="true" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="created_by" not-null="true" />
+        </property>
+        <property name="lastUpdatedBy" type="int">
+            <column name="last_updated_by" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creation_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="last_updated_date" length="19" not-null="true" />
+        </property>
+        <property name="type" type="string">
+            <column name="type" length="15" not-null="true" />
+        </property>
+        <property name="expectedDeliveryTime" type="timestamp">
+            <column name="expected_delivery_time" length="19" />
+        </property>
+         <property name="isNew" type="boolean">
+            <column name="is_new" not-null="true" />
+        </property>
+        <property name="priority" type="int">
+            <column name="priority" not-null="true" />
+        </property>
+        <property name="deliveryCode" type="string">
+            <column name="delivery_code" length="128" />
+        </property>
+        <property name="orderNumber" type="string">
+            <column name="order_number" length="50" />
+        </property>
+        <set name="orderLineses" table="order_lines" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="order_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.OrderLines" />
+        </set>
+        <set name="orderHistories" table="order_history" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="order_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.OrderHistory" />
+        </set>
+    </class>
+    
+    <query name="findOrdersByStatus">
+    	<![CDATA[ from Orders orders, LookupType lkup 
+    	          where orders.status = :status and 
+    	                orders.organization.id = :orgId and 
+    	                lkup.type = :type and 
+    	                lkup.code = orders.status 
+    	          order by orders.creationDate desc, orders.priority ]]>
+    </query>
+    <query name="findAllOrders">
+    	<![CDATA[ from Orders orders, LookupType lkup 
+    	          where orders.organization.id = :orgId and 
+    	                lkup.type = :type and 
+    	                lkup.code = orders.status 
+    	          order by orders.creationDate desc, orders.priority ]]>
+    </query>
+    
+</hibernate-mapping>

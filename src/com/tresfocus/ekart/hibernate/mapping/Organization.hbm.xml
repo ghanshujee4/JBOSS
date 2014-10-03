@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 12, 2014 10:53:50 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tresfocus.ekart.hibernate.entity.Organization" table="organization" catalog="closerby">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity"></generator>
+        </id>
+        <version name="objectVersionNumber" type="int">
+            <column name="object_version_number" not-null="true" />
+        </version>
+        <many-to-one name="address" class="com.tresfocus.ekart.hibernate.entity.Address" fetch="select" lazy='false'>
+            <column name="address_id" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" />
+        </property>
+        <property name="ownerName" type="string">
+            <column name="owner_name" length="45" not-null="true" />
+        </property>
+        <property name="orgType" type="string">
+            <column name="org_type" length="45" not-null="true" />
+        </property>
+        <property name="yearOfEstablishment" type="int">
+            <column name="year_of_establishment" not-null="true" />
+        </property>
+        <property name="serviceArea" type="int">
+            <column name="service_area" not-null="true" />
+        </property>
+        <property name="minPurchaseAmount" type="int">
+            <column name="min_purchase_amount" not-null="true" />
+        </property>
+        <property name="defaultDeliveryTime" type="int">
+            <column name="default_delivery_time" not-null="true" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="created_by" not-null="true" />
+        </property>
+        <property name="lastUpdatedBy" type="int">
+            <column name="last_updated_by" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creation_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="last_updated_date" length="19" not-null="true" />
+        </property>
+        <set name="orderses" table="orders" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.Orders" />
+        </set>
+        <set name="orderLineses" table="order_lines" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.OrderLines" />
+        </set>
+        <set name="retailerZones" table="retailer_zone" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="retailer_org_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.RetailerZone" />
+        </set>
+        <set name="retailerSnapshots" table="retailer_snapshot" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.RetailerSnapshot" />
+        </set>
+        <set name="users" table="user" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.User" />
+        </set>
+        <set name="orderHistories" table="order_history" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.OrderHistory" />
+        </set>
+        <set name="retailerCategories" table="retailer_category" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.RetailerCategory" />
+        </set>
+    </class>
+</hibernate-mapping>

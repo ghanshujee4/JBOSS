@@ -1,0 +1,118 @@
+#userMenu { /*Fallback for web browsers that doesn't support RGBa */
+	background: rgb(0, 0, 0) transparent;
+	/* RGBa with 0.6 opacity */
+	background: rgba(0, 0, 0, .6);
+	/* For IE 5.5 - 7*/
+	filter: progid :   DXImageTransform.Microsoft.gradient (   startColorstr
+		= 
+		 #99000000, endColorstr =   #99000000 );
+	/* For IE 8*/
+	-ms-filter:
+		"progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+	color: rgba(0, 0, 0, 0.6);
+	z-index: 0;
+	visibility: hidden;
+	position: relative;
+	width: 250px;
+	height: 250px;
+	padding: 25px;
+	border: 1px solid;
+	display: none;
+	float: left;
+}
+
+#userMenu:before {
+	content: "";
+	width: 0;
+	height: 0;
+	top: 10px;
+	display: block;
+	border-left: 14px solid transparent;
+	border-bottom: 20px solid rgba(0, 0, 0, .6);
+	border-right: 14px solid transparent;
+	z-index: 1;
+	margin-top: 0px;
+}
+
+label {
+	position: relative;
+	float: right;
+}
+
+.box {
+	position: absolute;
+	left: -90px;
+	top: 35px;
+	z-index: 100;
+	border: 1px solid #C0C0C0;
+	text-align: left;
+	/* Prevent some white flashing in Safari 5.1 */
+	-webkit-backface-visibility: hidden;
+
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 125px;
+	opacity: 0;
+	-webkit-transform: scale(0) skew(50deg);
+	-moz-transform: scale(0) skew(50deg);
+	-ms-transform: scale(0) skew(50deg);
+	-o-transform: scale(0) skew(50deg);
+	-webkit-transform-origin: 0px -30px;
+	-moz-transform-origin: 0px -30px;
+	-ms-transform-origin: 0px -30px;
+	-o-transform-origin: 0px -30px;
+	-webkit-transition: -webkit-transform ease-out .35s, opacity ease-out
+		.4s;
+	-moz-transition: -moz-transform ease-out .35s, opacity ease-out .4s;
+	-ms-transition: -ms-transform ease-out .35s, opacity ease-out .4s;
+	-o-transition: -o-transform ease-out .35s, opacity ease-out .4s;
+}
+
+.box:after {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: 90px;
+	border-bottom: 12px solid red;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	width: 0;
+	height: 0;
+}
+
+.popUpControl:checked  ~ label>.box {
+	opacity: 1;
+	-webkit-transform: scale(1) skew(0deg);
+	-moz-transform: scale(1) skew(0deg);
+	-ms-transform: scale(1) skew(0deg);
+	-o-transform: scale(1) skew(0deg);
+}
+
+.popUpControl {
+	display: none;
+}
+
+/* User Menu */
+.box div {
+	color: black;
+	padding-bottom: 3px;
+	text-decoration: none;
+	border-bottom: 1px solid #DCDCDC;
+	width: 100%;
+	display: block;
+}
+
+.box div:hover {
+	background-color: #F5F5F5;
+	cursor: pointer;
+}
+
+.box div a {
+	padding-left: 10px;
+	text-decoration: none;
+}
+
+.box div:last-child {
+	padding-bottom: 3px;
+	border-bottom: 0px;
+}

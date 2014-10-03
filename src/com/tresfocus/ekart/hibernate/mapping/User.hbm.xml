@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 12, 2014 10:53:50 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tresfocus.ekart.hibernate.entity.User" table="user" catalog="closerby">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <version name="objectVersionNumber" type="int">
+            <column name="object_version_number" not-null="true" />
+        </version>
+        <many-to-one name="organization" class="com.tresfocus.ekart.hibernate.entity.Organization" fetch="join" lazy='false'>
+            <column name="org_id" />
+        </many-to-one>
+        <property name="active" type="boolean">
+            <column name="active" not-null="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="username" length="45" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="256" not-null="true" />
+        </property>         
+		<property name="fname" type="string">
+            <column name="fname" length="45" />
+        </property>
+        <property name="lname" type="string">
+            <column name="lname" length="45" />
+        </property>
+        <property name="gender" type="string">
+            <column name="gender" length="1" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="45" />
+        </property>
+        <property name="operatingCurrency" type="string">
+            <column name="operating_currency" length="45" />
+        </property>
+        <property name="timezone" type="string">
+            <column name="timezone" length="45" />
+        </property>
+
+        <property name="createdBy" type="int">
+            <column name="created_by" not-null="true" />
+        </property>
+        <property name="lastUpdatedBy" type="int">
+            <column name="last_updated_by" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creation_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="last_updated_date" length="19" not-null="true" />
+        </property>
+        <set name="customerRetailersForCustomerId" table="customer_retailer" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="customer_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.CustomerRetailer" />
+        </set>
+        <set name="orderses" table="orders" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="customer_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.Orders" />
+        </set>
+        <set name="userRoles" table="user_role" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.UserRole" />
+        </set>
+        <set name="userAddresses" table="user_address" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.UserAddress" />
+        </set>
+        <set name="customerRetailersForRetailerId" table="customer_retailer" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="retailer_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.CustomerRetailer" />
+        </set>
+    </class>
+    
+    <query name="findAllMyRetailers">
+	    	<![CDATA[ FROM  User user, Organization org, CustomerRetailer cusret
+					  WHERE user.organization.id = org.id and 
+      					    org.orgType = 'RETAILER' and
+      						user.id = cusret.userByRetailerId.id and
+      						cusret.userByCustomerId.id = :customerId 
+    	              ORDER BY user.creationDate desc ]]>
+    </query>
+</hibernate-mapping>

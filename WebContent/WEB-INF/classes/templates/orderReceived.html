@@ -1,0 +1,106 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>eKart Order Received: ${orderNumber}</title>
+      
+ 	<script type="text/javascript" th:src="${serverAddress}/eKart/js/jquery-1.11.0.min.js"></script>
+ 	<script type="text/javascript" th:src="${serverAddress}/eKart/js/jquery.corner.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function() {
+	    	$('#productDiv').corner();
+	    });
+    </script>
+    
+    <style>	
+    
+    #medium-space {
+		clear: both;
+		height: 10px;
+	}
+    
+    #productDetail tr.even{
+		border-bottom: 1px solid #B8B8B8;
+		background-color: #E8E8E8;
+		color:black;
+		font-weight:normal;
+	}
+	
+	#productDetail tr{
+		border-bottom: 1px solid #B8B8B8;
+		color:white;
+		font-weight:bold;
+	}
+	
+	#productDetail tr.odd{
+		border-bottom: 1px solid #B8B8B8;
+		color:black;
+		background-color: #F8F8F8;
+		font-weight:normal;
+	}
+    </style>
+  </head>
+
+  <body>
+	<div style='margin:0px;padding:0px;'>
+		<img style='width:70px;height:50px;vertical-align:top' src="https://dl.dropboxusercontent.com/u/81285988/cart.png"/><span style='display:inline-block;font-family: Papyrus, fantasy;font-size:40px;font-weight:bold;'>Closer By</span>
+<!-- 		
+		<img style='width:70px;height:50px;vertical-align:top' th:src="|${serverAddress}/eKart/images/cart.png|"/><span style='display:inline-block;font-family: Papyrus, fantasy;font-size:40px;font-weight:bold;'>Closer By</span>
+ -->
+	</div>
+	
+	<div id='medium-space'></div> 
+	
+	<table cellspacing='2' cellpadding='2' border='2' style='width:800px;'>
+		<tr>
+			<td class='bold'>Customer:</td>
+			<td><span th:text="${customer}"></span></td>
+		</tr>
+		<tr>
+			<td class='bold'>Billing Address:</td>
+			<td><span th:text="${billingAddress}"></span></td>
+		</tr>
+		<tr>
+			<td class='bold'>Shipping Address:</td>
+			<td><span th:text="${billingAddress}"></span></td>
+		</tr>
+		<tr>
+			<td class='bold'>Delivery Time:</td>
+			<td><span th:text="${deliveryTime}"></span></td>
+		</tr>
+		<tr>
+			<td class='bold'>Bill Amount:</td>
+			<td><span th:text="${amount}"></span></td>
+		</tr>
+		<tr>
+			<td class='bold'>Comments:</td>
+			<td><span th:text="${comments}"></span></td>
+		</tr>
+	</table>
+ 
+ <BR/><BR/>
+ <div id='productDiv' style='background-color: #B8B8B8;width:800px;'>
+<table id='productDetail' style='width:800px;'>
+  <tr>
+    <th>Product</th>
+    <th>Category</th> 
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Discount</th>
+    <th>Total</th>
+  </tr>
+  <tr th:each="orderLine,iterStat : ${orderLines}" th:class="${iterStat.odd}? 'odd':'even'">
+    <td th:text="${orderLine.product.name}"></td>   
+    <td th:text="${orderLine.product.category.name}"></td> 
+    <td th:text="${orderLine.quantity}"></td>
+    <td th:text="${orderLine.price}"></td>
+    <td th:text="${orderLine.discount}"></td>
+    <td th:text="${orderLine.quantity} * ${orderLine.price}"></td>
+  </tr>
+</table>
+</div>
+</body>
+
+</html>

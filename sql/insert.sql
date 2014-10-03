@@ -1,0 +1,3 @@
+INSERT INTO `ekart`.`order_lines` (`order_id`, `product_id`, `quantity`, `price`, `tax`, `total`, `discount`, `created_by`, `last_updated_by`, `creation_date`, `updated_date`, `object_version_number`) VALUES (1, 1336, 5, 45, 5, 230, 10, 1, 1,now(),now(), 1);
+
+INSERT INTO `ekart`.`order_lines` (`order_id`, `product_id`, `quantity`, `price`, `tax`, `total`, `discount`, `created_by`, `last_updated_by`, `creation_date`, `updated_date`, `object_version_number`) VALUES (1, 1343, 2, 120, 10, 250, 2, 1, 1, now(),now(), 1);

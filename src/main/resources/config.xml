@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="mail.user">closerby1@gmail.com</entry>
+	<entry key="mail.password">ZWFzdGZhY2luZw==</entry>
+	<entry key="mail.smtp.host">smtp.gmail.com</entry>
+	<entry key="mail.smtp.port">587</entry>
+	<entry key="mail.smtp.auth">true</entry>
+	<entry key="mail.smtp.starttls.enable">true</entry>
+	<entry key="mail.reply.to"><![CDATA[<Vincent>closerby1@gmail.com]]></entry>
+	<entry key="mail.from"><![CDATA[<Onkar>closerby1@gmail.com]]></entry>
+
+	<entry key="security.token.length">15</entry>
+	<entry key="server.root">https://ekart-assetikon.rhcloud.com/</entry>
+	<entry key="activemq.host">127.0.0.1</entry>
+	<entry key="activemq.port">30303</entry>
+</properties>

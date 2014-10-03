@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1"
+      xmlns:file="http://www.mulesoft.org/schema/mule/file"
+      xmlns:stdio="http://www.mulesoft.org/schema/mule/stdio" 
+      xsi:schemaLocation=
+       "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+		 http://www.mulesoft.org/schema/mule/stdio http://www.mulesoft.org/schema/mule/stdio/3.1/mule-stdio.xsd
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+
+	<file:connector name="inboundFileConnector" autoDelete="true" doc:name="File" fileAge="5000" pollingFrequency="10000" streaming="false" validateConnections="true"/>
+    <stdio:connector name="stdioConnector" messageDelayTime="1000" doc:name="STDIO"/> 
+    <custom-transformer name="RetailerDataTransformer" class="com.tresfocus.ekart.mule.transformer.RetailerDataTransformer" doc:name="Java" />
+	<file:file-to-string-transformer name="FileToStringTransformer"  />
+	<model name="model">
+      <service name="service">
+        <inbound>
+          <file:inbound-endpoint connector-ref="inboundFileConnector" path="D:/closerby/inbound" moveToDirectory="D:/closerby/inbound/history" moveToPattern="#[function:datestamp]__#[message.outboundProperties['originalFilename']]">
+          	<file:filename-wildcard-filter pattern="*.csv" />
+          </file:inbound-endpoint>
+		</inbound> 
+        <outbound>
+ 			<multicasting-router>
+				<stdio:outbound-endpoint system="OUT" connector-ref="stdioConnector" transformer-refs="RetailerDataTransformer"/>
+			</multicasting-router>        
+		</outbound>
+      </service>
+    </model>
+</mule>

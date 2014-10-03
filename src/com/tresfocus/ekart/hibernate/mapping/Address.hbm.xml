@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 10, 2014 2:51:47 AM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tresfocus.ekart.hibernate.entity.Address" table="address" catalog="closerby">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <version name="objectVersionNumber" type="int">
+            <column name="object_version_number" not-null="true" />
+        </version>
+         <many-to-one name="cities" class="com.tresfocus.ekart.hibernate.entity.Cities" fetch="select" lazy='false'>
+            <column name="city_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="states" class="com.tresfocus.ekart.hibernate.entity.States" fetch="select" lazy='false'>
+            <column name="state_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="country" class="com.tresfocus.ekart.hibernate.entity.Country" fetch="select" lazy='false'>
+            <column name="country_id" not-null="true" />
+        </many-to-one>
+        <property name="firstName" type="string">
+            <column name="first_name" length="45" not-null="true" />
+        </property>
+        <property name="middleName" type="string">
+            <column name="middle_name" length="45" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="45" not-null="true" />
+        </property>
+        <property name="address1" type="string">
+            <column name="address_1" length="256" not-null="true" />
+        </property>
+        <property name="address2" type="string">
+            <column name="address_2" length="256" />
+        </property>
+        <property name="address3" type="string">
+            <column name="address_3" length="256" />
+        </property>
+        <property name="postalcode" type="string">
+            <column name="postalcode" length="45" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="45" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" not-null="true" />
+        </property>
+        <property name="active" type="boolean">
+            <column name="active" not-null="true" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="created_by" not-null="true" />
+        </property>
+        <property name="lastUpdatedBy" type="int">
+            <column name="last_updated_by" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creation_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="last_updated_date" length="19" not-null="true" />
+        </property>
+        <set name="userAddresses" table="user_address" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="address_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.UserAddress" />
+        </set>
+        <set name="ordersesForBillingAddressId" table="orders" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="billing_address_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.Orders" />
+        </set>
+        <set name="ordersesForShippingAddressId" table="orders" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shipping_address_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.Orders" />
+        </set>
+        <set name="organizations" table="organization" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="address_id" not-null="true" />
+            </key>
+            <one-to-many class="com.tresfocus.ekart.hibernate.entity.Organization" />
+        </set>
+    </class>
+</hibernate-mapping>

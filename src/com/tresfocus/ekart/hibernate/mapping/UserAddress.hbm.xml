@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 12, 2014 10:53:50 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tresfocus.ekart.hibernate.entity.UserAddress" table="user_address" catalog="closerby">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity"></generator>
+        </id>
+        <many-to-one name="user" class="com.tresfocus.ekart.hibernate.entity.User" fetch="select" lazy="false">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="address" class="com.tresfocus.ekart.hibernate.entity.Address" fetch="select" lazy="false">
+            <column name="address_id" not-null="true" />
+        </many-to-one>
+        <property name="primary" type="boolean">
+            <column name="primary_address" not-null="true" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="created_by" not-null="true" />
+        </property>
+        <property name="lastUpdatedBy" type="int">
+            <column name="last_updated_by" not-null="true" />
+        </property>
+        <property name="creationDate" type="timestamp">
+            <column name="creation_date" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="last_updated_date" length="19" not-null="true" />
+        </property>
+        <property name="objectVersionNumber" type="int">
+            <column name="object_version_number" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,32 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>CloserBy Order Confirmation: ${orderNumber}</title>
+    <style>
+	    #medium-space {
+			clear: both;
+			height: 10px;
+		}
+    </style>
+ 	<script type="text/javascript" th:src="|${serverAddress}/closerby/js/jquery-1.11.0.min.js|"></script>
+ 	<script type="text/javascript" th:src="|${serverAddress}/closerby/js/jquery.corner.js|"></script>
+  </head>
+
+  <body>
+	<div style='margin:0px;padding:0px;'>
+		<img style='width:70px;height:50px;vertical-align:top' src="https://dl.dropboxusercontent.com/u/81285988/cart.png"/><span style='display:inline-block;font-family: Papyrus, fantasy;font-size:40px;font-weight:bold;'>Closer By</span>
+<!-- 		
+		<img style='width:70px;height:50px;vertical-align:top' th:src="|${serverAddress}/closerby/images/cart.png|"/><span style='display:inline-block;font-family: Papyrus, fantasy;font-size:40px;font-weight:bold;'>Closer By</span>
+ -->
+	</div>
+	
+	<div id='medium-space'></div> 
+	Your order with reference: <span th:text="${orderNumber}"></span> has been confirmed. 
+	<BR/><BR/>
+	Please note your delivery code: <span th:text="${deliveryCode}"></span>
+</body>
+
+</html>

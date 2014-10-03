@@ -1,0 +1,89 @@
+<beans  xmlns="http://www.springframework.org/schema/beans"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:jee="http://www.springframework.org/schema/jee"    
+		xmlns:p="http://www.springframework.org/schema/p"
+	    xmlns:aop="http://www.springframework.org/schema/aop"
+	    xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:util="http://www.springframework.org/schema/util"	  
+		xmlns:amq="http://activemq.apache.org/schema/core"  
+		xmlns:jms="http://www.springframework.org/schema/jms"
+		xsi:schemaLocation="
+    	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+    	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+     	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd    
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+     ">
+     
+    <context:annotation-config />
+ 	<context:component-scan base-package="com.tresfocus.ekart" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+	</context:component-scan>
+	
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/closerbyDB" expected-type="javax.sql.DataSource" />
+	
+	<bean id="propertyConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		  p:location="classpath:jdbc.properties" />
+  
+   
+   	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+   		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>   
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+    <tx:annotation-driven  transaction-manager="transactionManager"/>
+ 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+		
+	<jee:jndi-lookup id="mqConnectionFactory" jndi-name="java:comp/env/jms/mqConnectionFactory" />  
+	<jee:jndi-lookup id="emailQueue" jndi-name="java:comp/env/jms/emailQueue" />  
+
+	<!-- Our message listener implementation that implements the JMS MessageListener interface and implements the  
+	 onMessage method to process incoming messages  
+	-->  
+	<bean id="emailMessageListener" class="com.tresfocus.ekart.jms.EmailMessageListener"/> 
+		
+	<jms:listener-container
+	    container-type="default"
+      	connection-factory="mqConnectionFactory" 
+      	receive-timeout="5000" destination-type="queue" concurrency="10-25" 
+	    acknowledge="auto" >
+		<jms:listener destination="emailQueue" ref="emailMessageListener" method="onMessage" />
+	</jms:listener-container>
+
+	<!-- MessageSender is a simple POJO that we supply with a JMSTemplate and  
+	the Queue that we want to send messages to  
+	-->  
+	<bean id="emailMessageSender" class="com.tresfocus.ekart.jms.EmailMessageSender">  
+		<property name="jmsTemplate" ref="jmsTemplate"/>  
+		<property name="emailQueue" ref="emailQueue"/>  
+	</bean>  
+
+	<!-- JMSTemplate is a Spring template that allows us to communicate with  
+	a message broker via JMS. JMSTemplate takes care of boiler plate code such as exception handling  
+	and resource management such as connection pooling. This allows us concentrate on solving the 'business'  
+	problem. We supply the JMS template with the connection factory mentioned above  
+	-->  
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">  
+		<property name="connectionFactory" ref="mqConnectionFactory" />
+	</bean> 
+</beans>

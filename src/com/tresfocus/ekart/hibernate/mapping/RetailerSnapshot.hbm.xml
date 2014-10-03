@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 12, 2014 10:53:50 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.tresfocus.ekart.hibernate.entity.RetailerSnapshot" table="retailer_snapshot" catalog="closerby">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity"></generator>
+        </id>
+        <version name="objectVersionNumber" type="int">
+            <column name="object_version_number" not-null="true" />
+        </version>
+        <many-to-one name="product" class="com.tresfocus.ekart.hibernate.entity.Product" fetch="select" lazy='false'>
+            <column name="product_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="organization" class="com.tresfocus.ekart.hibernate.entity.Organization" fetch="select" lazy='false'>
+            <column name="org_id" not-null="true" />
+        </many-to-one>
+         <many-to-one name="brand" class="com.tresfocus.ekart.hibernate.entity.Brands" fetch="select" lazy='false'>
+            <column name="brand_id"/>
+        </many-to-one>
+        <property name="salePrice" type="float">
+            <column name="sale_price" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="packSize" type="string">
+            <column name="pack_size" length="25" />
+        </property>
+        <property name="mrp" type="float">
+            <column name="mrp" precision="12" scale="0"/>
+        </property>
+        <property name="bundlePrice" type="float">
+            <column name="bundle_price" precision="12" scale="0" />
+        </property>
+        <property name="quantity" type="int">
+            <column name="quantity" />
+        </property>
+        <property name="newPrice" type="float">
+            <column name="new_price" precision="12" scale="0" />
+        </property>
+        <property name="composition" type="string">
+            <column name="composition" length="128" />
+        </property>
+        <property name="discount" type="float">
+            <column name="discount" length="19" precision="12" scale="0" />
+        </property>
+        <property name="offer" type="float">
+            <column name="offer" length="19" precision="12" scale="0" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="last_updated_date" length="19" not-null="true" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="created_by" not-null="true" />
+        </property>
+        <property name="lastUpdatedBy" type="int">
+            <column name="last_updated_by" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
